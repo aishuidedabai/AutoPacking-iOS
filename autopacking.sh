@@ -1,7 +1,7 @@
 #!/bin/sh
 # 该脚本使用方法
 # 源码地址：https://github.com/stackhou
-# step 1. 工程目录Shell新建文件夹，在文件夹中新建文件autopacking.sh，将该脚本复制到autopacking.sh文件并保存;
+# step 1. 在工程根目录新建Shell文件夹，在该文件夹中新建文件autopacking.sh，将该脚本复制到autopacking.sh文件并保存(或者直接复制该文件);
 # step 2. 配置该脚本;
 # step 2. cd 该脚本目录，运行chmod +x autopacking.sh;
 # step 3. 终端运行 sh autopacking.sh;
