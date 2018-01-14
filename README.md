@@ -56,7 +56,7 @@ xcodebuild -exportArchive	// 等同于点击 export
 
 ## 配置完项目结构(可以根据自己喜好自由定义)
 
-![](https://ws1.sinaimg.cn/large/006tNc79ly1fng6k3f4wwj30yk0bamz6.jpg)
+![](https://ws1.sinaimg.cn/large/006tNc79ly1fng6snbfdsj30yk0bamz6.jpg)
 
 ```bash
 #!/bin/sh
