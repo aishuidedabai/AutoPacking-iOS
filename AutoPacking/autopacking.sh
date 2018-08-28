@@ -2,22 +2,23 @@
 # 该脚本使用方法
 # 源码地址：https://github.com/stackhou
 # step 1. 在工程根目录新建Shell文件夹，在该文件夹中新建文件autopacking.sh，将该脚本复制到autopacking.sh文件并保存(或者直接复制该文件);
-# step 2. 配置该脚本;
+# step 2. 设置该脚本;
 # step 2. cd 该脚本目录，运行chmod +x autopacking.sh;
 # step 3. 终端运行 sh autopacking.sh;
 # step 4. 选择不同选项....
 # step 5. Success  🎉 🎉 🎉!
+# 注意：可以全文搜索“配置”，看相关注释选择配置，因为不同的项目配置不同，最好有相关的基础知识
 
 # ************************* 配置 Start ********************************
 
-# 上传到蒲公英
+# 【配置上传到蒲公英相关信息】(可选)
 __PGYER_U_KEY="4xxxxxxxxxxxxxxxxxxxxxxxxxxxxxb"
 __PGYER_API_KEY="3xxxxxxxxxxxxxxxxxxxxxxxxxx5"
 
-# 上传到 Fir
+# 【配置上传到 Fir】(可选)
 __FIR_API_TOKEN="xKKdjdldlodeikK626266skdkkddK"
 
-# 证书
+# 【配置证书】(只有一个证书时可选)
 __CODE_SIGN_DISTRIBUTION="iPhone Distribution: xxxxxxxxxxxCo., Ltd."
 __CODE_SIGN_DEVELOPMENT="iPhone Developer: xxxx xxxx (5xxxxxxxxxx2V)"
 
@@ -26,7 +27,7 @@ __LINE_BREAK_LEFT="\n\033[32;1m*********"
 __LINE_BREAK_RIGHT="***************\033[0m\n"
 __SLEEP_TIME=0.3
 
-# 指定Target
+# 【配置指定Target】
 echo "\033[36;1m请选择 SCHEME (输入序号, 按回车即可) \033[0m"
 echo "\033[33;1m1. APPxxxxDev \033[0m"
 echo "\033[33;1m2. APPxxxxTest \033[0m"
@@ -37,7 +38,7 @@ read parameter
 sleep ${__SLEEP_TIME}
 __SCHEME_NAME_SELECTED="${parameter}"
 
-# 判读用户是否有输入
+# 【配置指定Target 名称】
 if [[ "${__SCHEME_NAME_SELECTED}" == "1" ]]; then
 __SCHEME_NAME="APPxxxxDev"
 elif [[ "${__SCHEME_NAME_SELECTED}" == "2" ]]; then
@@ -51,7 +52,7 @@ echo "${__LINE_BREAK_LEFT} 您输入 SCHEME 参数无效!!! ${__LINE_BREAK_RIGHT
 exit 1
 fi
 
-# ************************* 配置 END ********************************
+# ************************* 基础END ********************************
 
 # 指定打包编译的模式，如：Release, Debug...
 echo "\033[36;1m请选择 BUILD_CONFIGURATION (输入序号, 按回车即可) \033[0m"
@@ -102,7 +103,7 @@ read parameter
 sleep ${__SLEEP_TIME}
 __BUILD_METHOD="${parameter}"
 
-# 判读用户是否有输入
+# 【配置.plist 相关信息】
 if [[ "${__BUILD_METHOD}" == "1" ]]; then
 ExportOptionsPlistPath="./Shell/Plist/AdHocExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "2" ]]; then
@@ -149,8 +150,8 @@ fi
 
 echo "${__LINE_BREAK_LEFT} 您选择了 ${__SCHEME_NAME}-${__BUILD_CONFIGURATION} 模式 ${__LINE_BREAK_RIGHT}"
 
-# 配置完毕是否开始打包
-echo "\033[36;1m配置完毕是否立即开始打包 (输入序号, 按回车即可) \033[0m"
+# 完毕是否开始打包
+echo "\033[36;1m设置完毕是否立即开始打包 (输入序号, 按回车即可) \033[0m"
 echo "\033[33;1m1. 是 \033[0m"
 echo "\033[33;1m2. 否 \033[0m"
 
@@ -171,7 +172,7 @@ fi
 
 # ===============================自动打包部分=============================
 
-echo "${__LINE_BREAK_LEFT} 使用打包配置文件路径=${ExportOptionsPlistPath} ${__LINE_BREAK_RIGHT}"
+echo "${__LINE_BREAK_LEFT} 使用打包文件路径=${ExportOptionsPlistPath} ${__LINE_BREAK_RIGHT}"
 # 打包计时
 __CONSUME_TIME=0
 # 回退到工程目录
@@ -182,9 +183,9 @@ echo "${__LINE_BREAK_LEFT} 进入工程目录=${__PROGECT_PATH} ${__LINE_BREAK_R
 # 获取项目名称
 __PROJECT_NAME=`find . -name *.xcodeproj | awk -F "[/.]" '{print $(NF-1)}'`
 
-# 已经指定Target的Info.plist文件路径
+# 已经指定Target的Info.plist文件路径 【配置Info.plist的名称】
 __CURRENT_INFO_PLIST_NAME="${__SCHEME_NAME}-Info.plist"
-# 获取 Info.plist 路径
+# 获取 Info.plist 路径  【配置Info.plist的路径】
 __CURRENT_INFO_PLIST_PATH="${__PROJECT_NAME}/Configs/${__CURRENT_INFO_PLIST_NAME}"
 # 当前的plist文件路径
 echo "${__LINE_BREAK_LEFT} 当前Info.plist路径= ${__CURRENT_INFO_PLIST_PATH} ${__LINE_BREAK_RIGHT}"
