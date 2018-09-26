@@ -1,7 +1,7 @@
 #!/bin/sh
 # 该脚本使用方法
 # 源码地址：https://github.com/stackhou
-# step 1. 在工程根目录新建Shell文件夹，在该文件夹中新建文件autopacking.sh，将该脚本复制到autopacking.sh文件并保存(或者直接复制该文件);
+# step 1. 在工程根目录新建AutoPacking文件夹，在该文件夹中新建文件autopacking.sh，将该脚本复制到autopacking.sh文件并保存(或者直接复制该文件);
 # step 2. 设置该脚本;
 # step 2. cd 该脚本目录，运行chmod +x autopacking.sh;
 # step 3. 终端运行 sh autopacking.sh;
@@ -18,7 +18,7 @@ __PGYER_API_KEY="3xxxxxxxxxxxxxxxxxxxxxxxxxx5"
 # 【配置上传到 Fir】(可选)
 __FIR_API_TOKEN="xKKdjdldlodeikK626266skdkkddK"
 
-# 【配置证书】(只有一个证书时可选)
+# 【配置证书】(如果只有一个证书时该项 可选)
 __CODE_SIGN_DISTRIBUTION="iPhone Distribution: xxxxxxxxxxxCo., Ltd."
 __CODE_SIGN_DEVELOPMENT="iPhone Developer: xxxx xxxx (5xxxxxxxxxx2V)"
 
@@ -29,10 +29,7 @@ __SLEEP_TIME=0.3
 
 # 【配置指定Target】
 echo "\033[36;1m请选择 SCHEME (输入序号, 按回车即可) \033[0m"
-echo "\033[33;1m1. APPxxxxDev \033[0m"
-echo "\033[33;1m2. APPxxxxTest \033[0m"
-echo "\033[33;1m3. APPxxxxRelease \033[0m"
-echo "\033[33;1m4. APPxxxxAppStore \033[0m\n"
+echo "\033[33;1m1. AutoPackingDemo \033[0m"
 
 read parameter
 sleep ${__SLEEP_TIME}
@@ -40,13 +37,7 @@ __SCHEME_NAME_SELECTED="${parameter}"
 
 # 【配置指定Target 名称】
 if [[ "${__SCHEME_NAME_SELECTED}" == "1" ]]; then
-__SCHEME_NAME="APPxxxxDev"
-elif [[ "${__SCHEME_NAME_SELECTED}" == "2" ]]; then
-__SCHEME_NAME="APPxxxxTest"
-elif [[ "${__SCHEME_NAME_SELECTED}" == "3" ]]; then
-__SCHEME_NAME="APPxxxxRelease"
-elif [[ "${__SCHEME_NAME_SELECTED}" == "4" ]]; then
-__SCHEME_NAME="APPxxxxAppStore"
+__SCHEME_NAME="AutoPackingDemo"
 else
 echo "${__LINE_BREAK_LEFT} 您输入 SCHEME 参数无效!!! ${__LINE_BREAK_RIGHT}"
 exit 1
@@ -97,7 +88,7 @@ echo "\033[36;1m请选择打包方式(输入序号, 按回车即可) \033[0m"
 echo "\033[33;1m1. AdHoc \033[0m"
 echo "\033[33;1m2. AppStore \033[0m"
 echo "\033[33;1m3. Enterprise \033[0m"
-echo "\033[33;1m4. Development \033[0m\n"
+echo "\033[33;1m4. Development \033[0m"
 # 读取用户输入并存到变量里
 read parameter
 sleep ${__SLEEP_TIME}
@@ -105,13 +96,13 @@ __BUILD_METHOD="${parameter}"
 
 # 【配置.plist 相关信息】
 if [[ "${__BUILD_METHOD}" == "1" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/AdHocExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPacking/Plist/AdHocExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "2" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/AppStoreExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPacking/Plist/AppStoreExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "3" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/EnterpriseExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPacking/Plist/EnterpriseExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "4" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/DevelopmentExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPacking/Plist/DevelopmentExportOptionsPlist.plist"
 else
 echo "${__LINE_BREAK_LEFT} 您输入的打包方式参数无效!!! ${__LINE_BREAK_RIGHT}"
 exit 1
@@ -122,7 +113,7 @@ echo "\033[36;1m请选择ipa内测发布平台 (输入序号, 按回车即可) \
 echo "\033[33;1m1. None \033[0m"
 echo "\033[33;1m2. Pgyer \033[0m"
 echo "\033[33;1m3. Fir \033[0m"
-echo "\033[33;1m4. Pgyer and Fir \033[0m\n"
+echo "\033[33;1m4. Pgyer and Fir \033[0m"
 
 # 读取用户输入并存到变量里
 read parameter
@@ -184,9 +175,9 @@ echo "${__LINE_BREAK_LEFT} 进入工程目录=${__PROGECT_PATH} ${__LINE_BREAK_R
 __PROJECT_NAME=`find . -name *.xcodeproj | awk -F "[/.]" '{print $(NF-1)}'`
 
 # 已经指定Target的Info.plist文件路径 【配置Info.plist的名称】
-__CURRENT_INFO_PLIST_NAME="${__SCHEME_NAME}-Info.plist"
+__CURRENT_INFO_PLIST_NAME="Info.plist"
 # 获取 Info.plist 路径  【配置Info.plist的路径】
-__CURRENT_INFO_PLIST_PATH="${__PROJECT_NAME}/Configs/${__CURRENT_INFO_PLIST_NAME}"
+__CURRENT_INFO_PLIST_PATH="${__PROJECT_NAME}/${__CURRENT_INFO_PLIST_NAME}"
 # 当前的plist文件路径
 echo "${__LINE_BREAK_LEFT} 当前Info.plist路径= ${__CURRENT_INFO_PLIST_PATH} ${__LINE_BREAK_RIGHT}"
 # 获取版本号
@@ -244,7 +235,7 @@ xcodebuild archive  -workspace ${__PROJECT_NAME}.xcworkspace \
 -archivePath ${__EXPORT_ARCHIVE_PATH} \
 CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
 -destination generic/platform=ios \
-CODE_SIGN_IDENTITY="${__CODE_SIGN_DEVELOPMENT}"
+#CODE_SIGN_IDENTITY="${__CODE_SIGN_DEVELOPMENT}"
 
 elif [[ ${__BUILD_CONFIGURATION} == "Release" ]]; then
 echo "${__LINE_BREAK_LEFT} 您选择了以 xcworkspace-Release 模式打包 ${__LINE_BREAK_RIGHT}"
@@ -260,11 +251,10 @@ xcodebuild archive  -workspace ${__PROJECT_NAME}.xcworkspace \
 -archivePath ${__EXPORT_ARCHIVE_PATH} \
 CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
 -destination generic/platform=ios \
-CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
+#CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
 else
 echo "${__LINE_BREAK_LEFT} 您输入的参数不对 😢 😢 😢 ${__LINE_BREAK_RIGHT}"
 echo "Usage:\n"
-echo "sh autopacking.sh"
 echo "sh autopacking.sh"
 exit 1
 fi
@@ -275,7 +265,7 @@ echo "${__LINE_BREAK_LEFT}您选择了以 xcodeproj-Debug 模式打包 ${__LINE_
 xcodebuild clean  -project ${__PROJECT_NAME}.xcodeproj \
 -scheme ${__SCHEME_NAME} \
 -configuration ${__BUILD_CONFIGURATION} \
--alltargets
+#-alltargets
 
 # step 2. Archive
 xcodebuild archive  -project ${__PROJECT_NAME}.xcodeproj \
@@ -284,7 +274,7 @@ xcodebuild archive  -project ${__PROJECT_NAME}.xcodeproj \
 -archivePath ${__EXPORT_ARCHIVE_PATH} \
 CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
 -destination generic/platform=ios \
-CODE_SIGN_IDENTITY="${__CODE_SIGN_DEVELOPMENT}"
+#CODE_SIGN_IDENTITY="${__CODE_SIGN_DEVELOPMENT}"
 
 
 elif [[ ${__BUILD_CONFIGURATION} == "Release" ]]; then
@@ -301,7 +291,7 @@ xcodebuild archive  -project ${__PROJECT_NAME}.xcodeproj \
 -archivePath ${__EXPORT_ARCHIVE_PATH} \
 CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
 -destination generic/platform=ios \
-CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
+#CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
 
 else
 echo "${__LINE_BREAK_LEFT} 您输入的参数不对 😢 😢 😢 ${__LINE_BREAK_RIGHT}"
