@@ -62,6 +62,8 @@ xcodebuild -exportArchive	// 等同于点击 export
 
 可以仿照Demo调整
 
+测试体验Demo的话，需要更换的地方：1. 你的Bundle identifier 2.还有Plist里面的相应plist文件，3、上传蒲公英或者Fir的相关APPID和Key，4.(可选) 如果是多个证书的话，需要指定证书，并打开下面的注释
+
 # 六、注意事项
 
 注意ExportOptions.plist配置，如下所示：
